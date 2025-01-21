@@ -7,9 +7,9 @@ class ProductController {
 	async create(req: Request<{}, {}, IProduct>, res: Response) {
 		const result = await createProductService.create(req.body);
 		if (!result) {
-			res.status(400).json({ message: 'Falha ao cadastrar usuario' });
+			res.status(400).json({ message: 'Falha ao cadastrar produto' });
 		}
-		res.status(200).json({ message: 'Usuario criado com sucesso' });
+		res.status(200).json({ message: 'Produto criado com sucesso' });
 	}
 	index(req: Request, res: Response) {
 		const result = createProductService.index();
