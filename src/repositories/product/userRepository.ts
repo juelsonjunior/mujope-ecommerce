@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { IProduct } from '../../types/Iproduct';
 import { IParams } from '../../types/typeParams';
 import { BadRequestError } from '../../helpers/api-error';
+import { IFilter } from '../../types/Ifilter';
 
 class ProdutcRepository {
 	private prisma: PrismaClient;
@@ -24,7 +25,7 @@ class ProdutcRepository {
 					name: product.name,
 					description: product.description,
 					price: product.price,
-					categoryId: product.category,
+					categoryId: product.categoryId,
 				},
 			});
 
@@ -48,18 +49,30 @@ class ProdutcRepository {
 
 		return listProduct;
 	}
-	async show(name: string) {
-		const dataProduct = await this.prisma.product.findUnique({
-			where: { name: name },
-		});
+	async show(filter: IFilter) {
+		let resultDataFilter: IProduct | null;
 
-		if (!dataProduct) {
+		if (filter.id) {
+			resultDataFilter = await this.prisma.product.findUnique({
+				where: { id: filter.id },
+			});
+		} else if (filter.name) {
+			resultDataFilter = await this.prisma.product.findUnique({
+				where: { name: filter.name },
+			});
+		}else {
+			throw new BadRequestError(
+				'Defina um filtro para ver os dados especificos'
+			);
+		}
+
+		if (!resultDataFilter) {
 			throw new BadRequestError(
 				'Houve um problema ao exibir os dados desse produto'
 			);
 		}
 
-		return dataProduct;
+		return resultDataFilter;
 	}
 	update(id: IParams, product: IProduct) {}
 	delete(id: IParams) {}

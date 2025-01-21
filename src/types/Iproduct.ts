@@ -3,6 +3,6 @@ export interface IProduct {
     name: string
     description: string
     price: number
-    category: number
+    categoryId: number
     updatedAt?: Date
 }
