@@ -28,7 +28,7 @@ class ProdutcRepository {
 	index() {}
 	async show(name:string) {
 		await this.prisma.product.findUnique({
-			where: {}
+			where: { name: name}
 		})
 	}
 	update(id: IParams, product: IProduct) {}
