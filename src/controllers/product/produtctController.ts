@@ -4,25 +4,28 @@ import { IProduct } from '../../types/Iproduct';
 import { IParams } from '../../types/typeParams';
 
 class ProductController {
-	create(req: Request<{}, {}, IProduct>, res: Response) {
-		const result = createProductService.create(req.body);
-		res.status(200).json({ message: 'Usuario criado com sucesso'});
+	async create(req: Request<{}, {}, IProduct>, res: Response) {
+		const result = await createProductService.create(req.body);
+		if (!result) {
+			res.status(400).json({ message: 'Falha ao cadastrar usuario' });
+		}
+		res.status(200).json({ message: 'Usuario criado com sucesso' });
 	}
-    index(req: Request, res: Response){
+	index(req: Request, res: Response) {
 		const result = createProductService.index();
 		res.status(200).json(result);
 	}
-    show(req: Request, res: Response){
+	show(req: Request, res: Response) {
 		const result = createProductService.show(req.body);
 		res.status(200).json(result);
 	}
-    update(req: Request<IParams, {}, IProduct>, res: Response){
+	update(req: Request<IParams, {}, IProduct>, res: Response) {
 		const result = createProductService.update(req.params.id, req.body);
-		res.status(200).json({ message: 'Produto actualizado'});
+		res.status(200).json({ message: 'Produto actualizado' });
 	}
-    delete(req: Request, res: Response){
+	delete(req: Request, res: Response) {
 		const result = createProductService.delete(req.params.id);
-		res.status(200).json({ message: 'Produto deletado com sucesso'});
+		res.status(200).json({ message: 'Produto deletado com sucesso' });
 	}
 }
 

@@ -1,8 +1,9 @@
 import ProdutcRepository from "../../repositories/product/userRepository"
+import { IProduct } from "../../types/Iproduct"
 
 class CreateProductService {
-	create(product) {
-        return ProdutcRepository.create(product)
+	async create(product: IProduct) {
+        return await ProdutcRepository.create(product)
     }
 	index() {
         return ProdutcRepository.index()

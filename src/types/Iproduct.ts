@@ -1,9 +1,8 @@
 export interface IProduct {
-    image_rul: string
+    imageUrl: string
     name: string
     description: string
     price: number
     category: number
-    createAt: Date
-    updatedAt: Date
+    updatedAt?: Date
 }
