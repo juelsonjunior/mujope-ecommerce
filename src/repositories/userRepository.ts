@@ -1,80 +1,47 @@
-import { PrismaClient } from '@prisma/client';
-import { IProduct, IFilter, IdParams } from '../types/';
-import { BadRequestError } from '../helpers/api-error';
+import { PrismaClient, Prisma } from '@prisma/client';
+import { IProduct, IdParams } from '../types/';
 class ProductRepository {
 	private prisma: PrismaClient;
+
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
-	async create(product: IProduct): Promise<boolean> {
-		const existProduct = await this.prisma.product.findUnique({
-			where: { name: product.name },
-		});
-		if (existProduct) {
-			throw new BadRequestError(
-				'Esse nome de produto já foi cadastrado! tente usar outro'
-			);
-		} else {
-			const registerProduct = await this.prisma.product.create({
-				data: {
-					imageUrl: product.imageUrl,
-					name: product.name,
-					description: product.description,
-					price: product.price,
-					categoryId: product.categoryId,
-				},
-			});
 
-			if (!registerProduct) {
-				throw new BadRequestError(
-					'Houve um problema ao cadastrar o produto'
-				);
-			}
-
-			return true;
-		}
-	}
-	async index(): Promise<IProduct[]> {
-		const listProduct = await this.prisma.product.findMany();
-
-		if (!listProduct) {
-			throw new BadRequestError(
-				'Houve um problema ao listar os produtos'
-			);
-		}
-
-		return listProduct;
-	}
-	async show(filter: IFilter): Promise<IProduct[]> {
-		const resultDataFilter = await this.prisma.product.findMany({
-			where: {
-				AND: [
-					filter.id ? { id: filter.id } : {},
-					filter.name
-						? {
-								name: {
-									contains: filter.name,
-									mode: 'insensitive',
-								},
-							}
-						: {},
-				],
+	async create(product: IProduct): Promise<IProduct> {
+		return await this.prisma.product.create({
+			data: {
+				imageUrl: product.imageUrl,
+				name: product.name,
+				description: product.description,
+				price: product.price,
+				categoryId: product.categoryId,
 			},
 		});
-		console.log(resultDataFilter);
-
-		if (!resultDataFilter) {
-			throw new BadRequestError(
-				'Houve um problema ao filtrar os dados desse produto'
-			);
-		}
-
-		return resultDataFilter;
 	}
-	async update(id: IdParams, product: IProduct): Promise<boolean> {
-		console.log(id, product);
-		return true;
+
+	async index(): Promise<Partial<IProduct>[]> {
+		return await this.prisma.product.findMany();
 	}
+
+	async show(filters: Prisma.ProductWhereInput): Promise<IProduct[]> {
+		return await this.prisma.product.findMany({
+			where: filters,
+		});
+	}
+
+	async update(id: IdParams, product: IProduct): Promise<IProduct> {
+		return await this.prisma.product.update({
+			where: { id },
+			data: {
+				imageUrl: product.imageUrl,
+				name: product.name,
+				description: product.description,
+				price: product.price,
+				categoryId: product.categoryId,
+			},
+		});
+	}
+
 	async delete(id: IdParams): Promise<boolean> {
 		console.log(id);
 
