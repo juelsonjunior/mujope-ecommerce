@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { IProduct, IFilter, IdParams } from '../../types/';
-import { BadRequestError } from '../../helpers/api-error';
+import { IProduct, IFilter, IdParams } from '../types/';
+import { BadRequestError } from '../helpers/api-error';
 class ProductRepository {
 	private prisma: PrismaClient;
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
-	async create(product: IProduct) {
+	async create(product: IProduct): Promise<boolean> {
 		const existProduct = await this.prisma.product.findUnique({
 			where: { name: product.name },
 		});
@@ -34,7 +34,7 @@ class ProductRepository {
 			return true;
 		}
 	}
-	async index() {
+	async index(): Promise<IProduct[]> {
 		const listProduct = await this.prisma.product.findMany();
 
 		if (!listProduct) {
@@ -45,7 +45,7 @@ class ProductRepository {
 
 		return listProduct;
 	}
-	async show(filter: IFilter) {
+	async show(filter: IFilter): Promise<IProduct[]> {
 		const resultDataFilter = await this.prisma.product.findMany({
 			where: {
 				AND: [
@@ -71,11 +71,11 @@ class ProductRepository {
 
 		return resultDataFilter;
 	}
-	update(id: IdParams, product: IProduct) {
+	async update(id: IdParams, product: IProduct): Promise<boolean> {
 		console.log(id, product);
 		return true;
 	}
-	delete(id: IdParams) {
+	async delete(id: IdParams): Promise<boolean> {
 		console.log(id);
 
 		return true;

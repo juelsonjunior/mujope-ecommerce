@@ -1,3 +1,1 @@
-export type IdParams = {
-	id: number;
-};
+export type IdParams = number;

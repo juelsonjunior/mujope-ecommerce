@@ -14,21 +14,24 @@ class ProductController {
 		const result = await createProductService.index();
 		res.status(200).json(result);
 	}
-	show(req: Request, res: Response) {
+	async show(req: Request, res: Response) {
 		const filter: IFilter = {
 			id: req.query.id ? Number(req.query.id) : undefined,
 			name: req.query.name as string | undefined,
 		};
-		const result = createProductService.show(filter);
+		const result = await createProductService.show(filter);
 		res.status(200).json(result);
 	}
-	update(req: Request<IdParams, {}, IProduct>, res: Response) {
-		const id = Number(req.params.id);
-		const result = createProductService.update(id, req.body);
+	async update(req: Request, res: Response) {
+		const id: IdParams = Number(req.params.id);
+		const product: IProduct = req.body;
+
+		const result = await createProductService.update(id, product);
 		res.status(200).json({ message: 'Produto actualizado', result });
 	}
-	delete(req: Request, res: Response) {
-		const result = createProductService.delete(req.params.id);
+	async delete(req: Request, res: Response) {
+		const id = Number(req.params.id);
+		const result = await createProductService.delete(id);
 		res.status(200).json({
 			message: 'Produto deletado com sucesso',
 			result,
