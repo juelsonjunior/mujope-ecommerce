@@ -4,5 +4,6 @@ export interface IProduct {
     description: string
     price: number
     categoryId: number
+    createAt?: Date
     updatedAt?: Date
 }

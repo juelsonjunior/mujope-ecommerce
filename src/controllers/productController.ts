@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import createProductService from '../../service/product/createProductService';
-import { IProduct } from '../../types/Iproduct';
-import { IParams } from '../../types/typeParams';
-import { IFilter } from '../../types/Ifilter';
+import createProductService from '../service/createProductService';
+import { IProduct, IFilter, IdParams } from '../types';
 
 class ProductController {
 	async create(req: Request<{}, {}, IProduct>, res: Response) {
@@ -16,17 +14,25 @@ class ProductController {
 		const result = await createProductService.index();
 		res.status(200).json(result);
 	}
-	show(req: Request<Partial<IFilter>, {}, {}>, res: Response) {
-		const result = createProductService.show(req.params);
+	show(req: Request, res: Response) {
+		const filter: IFilter = {
+			id: req.query.id ? Number(req.query.id) : undefined,
+			name: req.query.name as string | undefined,
+		};
+		const result = createProductService.show(filter);
 		res.status(200).json(result);
 	}
-	update(req: Request<IParams, {}, IProduct>, res: Response) {
-		const result = createProductService.update(req.params.id, req.body);
-		res.status(200).json({ message: 'Produto actualizado' });
+	update(req: Request<IdParams, {}, IProduct>, res: Response) {
+		const id = Number(req.params.id);
+		const result = createProductService.update(id, req.body);
+		res.status(200).json({ message: 'Produto actualizado', result });
 	}
 	delete(req: Request, res: Response) {
 		const result = createProductService.delete(req.params.id);
-		res.status(200).json({ message: 'Produto deletado com sucesso' });
+		res.status(200).json({
+			message: 'Produto deletado com sucesso',
+			result,
+		});
 	}
 }
 

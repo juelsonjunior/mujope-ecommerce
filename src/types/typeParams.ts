@@ -1,3 +1,3 @@
-export type IParams = {
-    id: string
-}
+export type IdParams = {
+	id: number;
+};

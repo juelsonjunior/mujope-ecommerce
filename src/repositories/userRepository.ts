@@ -1,12 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { IProduct } from '../../types/Iproduct';
-import { IParams } from '../../types/typeParams';
+import { IProduct, IFilter, IdParams } from '../../types/';
 import { BadRequestError } from '../../helpers/api-error';
-import { IFilter } from '../../types/Ifilter';
-
-class ProdutcRepository {
+class ProductRepository {
 	private prisma: PrismaClient;
-
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
@@ -50,32 +46,40 @@ class ProdutcRepository {
 		return listProduct;
 	}
 	async show(filter: IFilter) {
-		let resultDataFilter: IProduct | null;
-
-		if (filter.id) {
-			resultDataFilter = await this.prisma.product.findUnique({
-				where: { id: filter.id },
-			});
-		} else if (filter.name) {
-			resultDataFilter = await this.prisma.product.findUnique({
-				where: { name: filter.name },
-			});
-		}else {
-			throw new BadRequestError(
-				'Defina um filtro para ver os dados especificos'
-			);
-		}
+		const resultDataFilter = await this.prisma.product.findMany({
+			where: {
+				AND: [
+					filter.id ? { id: filter.id } : {},
+					filter.name
+						? {
+								name: {
+									contains: filter.name,
+									mode: 'insensitive',
+								},
+							}
+						: {},
+				],
+			},
+		});
+		console.log(resultDataFilter);
 
 		if (!resultDataFilter) {
 			throw new BadRequestError(
-				'Houve um problema ao exibir os dados desse produto'
+				'Houve um problema ao filtrar os dados desse produto'
 			);
 		}
 
 		return resultDataFilter;
 	}
-	update(id: IParams, product: IProduct) {}
-	delete(id: IParams) {}
+	update(id: IdParams, product: IProduct) {
+		console.log(id, product);
+		return true;
+	}
+	delete(id: IdParams) {
+		console.log(id);
+
+		return true;
+	}
 }
 
-export default new ProdutcRepository();
+export default new ProductRepository();
