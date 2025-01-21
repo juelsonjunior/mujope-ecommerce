@@ -84,7 +84,7 @@ class CreateProductService {
 		return editProduct
 	}
 
-	async delete(id: IdParams): Promise<boolean> {
+	async delete(id: IdParams): Promise<IProduct> {
 		return await ProductRepository.delete(id);
 	}
 }

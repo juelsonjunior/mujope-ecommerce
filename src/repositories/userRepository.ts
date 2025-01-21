@@ -42,10 +42,10 @@ class ProductRepository {
 		});
 	}
 
-	async delete(id: IdParams): Promise<boolean> {
-		console.log(id);
-
-		return true;
+	async delete(id: IdParams): Promise<IProduct> {
+		return await this.prisma.product.delete({
+			where: { id },
+		});
 	}
 }
 
