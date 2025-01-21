@@ -5,4 +5,5 @@ export interface IProduct {
     price: number
     category: number
     createAt: Date
+    updatedAt: Date
 }
