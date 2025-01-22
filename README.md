@@ -23,4 +23,5 @@ Divirta-se!
 ## Status atual do projeto
 Release: Version 1.0.0
 
-Estado: Em desenvolvimento Repositório: Privado
+Estado: Em desenvolvimento<br> 
+Repositório: Privado
