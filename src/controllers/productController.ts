@@ -1,18 +1,12 @@
 import { Request, Response } from 'express';
-import createProductService from '../service/createProductService';
 import { IProduct, IFilter, IdParams } from '../types';
+import { createProductService } from '../service/';
 
 class ProductController {
-	async create(req: Request<{}, {}, IProduct>, res: Response) {
-		await createProductService.create(req.body);
-		res.status(200).json({ message: 'Produto criado com sucesso' });
-	}
-
 	async index(req: Request, res: Response) {
 		const result = await createProductService.index();
 		res.status(200).json(result);
 	}
-
 	async show(req: Request, res: Response) {
 		const filter: IFilter = {
 			id: req.query.id ? Number(req.query.id) : undefined,
@@ -21,7 +15,10 @@ class ProductController {
 		const result = await createProductService.show(filter);
 		res.status(200).json(result);
 	}
-
+	async create(req: Request<{}, {}, IProduct>, res: Response) {
+		await createProductService.create(req.body);
+		res.status(200).json({ message: 'Produto criado com sucesso' });
+	}
 	async update(req: Request, res: Response) {
 		const id: IdParams = Number(req.params.id);
 		const product: IProduct = req.body;
@@ -29,7 +26,6 @@ class ProductController {
 		await createProductService.update(id, product);
 		res.status(200).json({ message: 'Produto editado com sucesso' });
 	}
-
 	async delete(req: Request, res: Response) {
 		const id = Number(req.params.id);
 		await createProductService.delete(id);

@@ -7,6 +7,14 @@ class ProductRepository {
 		this.prisma = new PrismaClient();
 	}
 
+	async index(): Promise<Partial<IProduct>[]> {
+		return await this.prisma.product.findMany();
+	}
+	async show(filters: Prisma.ProductWhereInput): Promise<IProduct[]> {
+		return await this.prisma.product.findMany({
+			where: filters,
+		});
+	}
 	async create(product: IProduct): Promise<IProduct> {
 		return await this.prisma.product.create({
 			data: {
@@ -18,17 +26,6 @@ class ProductRepository {
 			},
 		});
 	}
-
-	async index(): Promise<Partial<IProduct>[]> {
-		return await this.prisma.product.findMany();
-	}
-
-	async show(filters: Prisma.ProductWhereInput): Promise<IProduct[]> {
-		return await this.prisma.product.findMany({
-			where: filters,
-		});
-	}
-
 	async update(id: IdParams, product: IProduct): Promise<IProduct> {
 		return await this.prisma.product.update({
 			where: { id },
@@ -41,7 +38,6 @@ class ProductRepository {
 			},
 		});
 	}
-
 	async delete(id: IdParams): Promise<IProduct> {
 		return await this.prisma.product.delete({
 			where: { id },

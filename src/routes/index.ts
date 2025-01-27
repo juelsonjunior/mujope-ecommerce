@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import produtctController from '../controllers/productController';
-import categoryController from '../controllers/categoryController';
+import {productController, categoryController} from '../controllers/';
 
 const router = Router();
 
 //Route product
-router.post('/product', produtctController.create);
-router.get('/product', produtctController.index);
-router.get('/product/filter', produtctController.show);
-router.put('/product/:id', produtctController.update);
-router.delete('/product/:id', produtctController.delete);
+router.post('/product', productController.create);
+router.get('/product', productController.index);
+router.get('/product/filter', productController.show);
+router.put('/product/:id', productController.update);
+router.delete('/product/:id', productController.delete);
 
 //Route category
 router.post('/category', categoryController.create);
