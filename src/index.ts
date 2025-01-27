@@ -10,4 +10,5 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(router);
 app.use(errorHttpMiddeware);
-app.listen(3000, () => console.log(`Servidor rodando🚀 ${port}`));
+
+app.listen(3000, () => console.log(`Servidor rodando no endereço🚀 http://localhost:${port}/`));

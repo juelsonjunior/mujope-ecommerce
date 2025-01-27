@@ -1,5 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client';
-import ProductRepository from '../repositories/userRepository';
+import ProductRepository from '../repositories/productRepository';
 import { IProduct, IFilter, IdParams } from '../types';
 import { BadRequestError } from '../helpers/api-error';
 
@@ -8,7 +8,7 @@ class CreateProductService {
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
-	
+
 	async create(product: IProduct): Promise<IProduct> {
 		const existProduct = await this.prisma.product.findUnique({
 			where: { name: product.name },
@@ -76,12 +76,10 @@ class CreateProductService {
 		const editProduct = await ProductRepository.update(id, product);
 
 		if (!editProduct) {
-			throw new BadRequestError(
-				'Houve um problema ao editar o produto'
-			);
+			throw new BadRequestError('Houve um problema ao editar o produto');
 		}
 
-		return editProduct
+		return editProduct;
 	}
 
 	async delete(id: IdParams): Promise<IProduct> {

@@ -1,5 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client';
-import { IProduct, IdParams } from '../types/';
+import { IProduct, IdParams } from '../types';
 class ProductRepository {
 	private prisma: PrismaClient;
 
