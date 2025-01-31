@@ -1,11 +1,11 @@
 import { PrismaClient, Prisma } from '@prisma/client';
-import {productRepository} from '../repositories/';
+import { productRepository } from '../repositories/';
 import { IProduct, IFilter, IdParams } from '../types';
 import { BadRequestError } from '../helpers/api-error';
 
 class CreateProductService {
 	private prisma: PrismaClient;
-	
+
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
@@ -19,25 +19,16 @@ class CreateProductService {
 
 		return resultDataProduct;
 	}
-	async show(query: IFilter): Promise<IProduct[]> {
-		const filters = {} as Prisma.ProductWhereInput;
+	async show(id: IdParams): Promise<IProduct[]> {
+		const resultProduct = await productRepository.show(id);
 
-		if (query.id) {
-			filters.id = query.id;
-		}
-
-		if (query.name) {
-			filters.name = { contains: query.name, mode: 'insensitive' };
-		}
-		const resultDataFilter = await productRepository.show(filters);
-
-		if (resultDataFilter.length == 0) {
+		if (!resultProduct) {
 			throw new BadRequestError(
-				'Houve um problema ao filtrar os dados desse produto'
+				'Nenhum produto foi encontrado com base nesse ID'
 			);
 		}
 
-		return resultDataFilter;
+		return resultProduct;
 	}
 	async create(product: IProduct): Promise<IProduct> {
 		const existProduct = await this.prisma.product.findUnique({
