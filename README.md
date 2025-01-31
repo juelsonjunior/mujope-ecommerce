@@ -5,6 +5,7 @@ TypeScript<br>
 Node js<br>
 Express JS<br>
 Zod<br>
+NodeMailer<br>
 Prisma ORM<br>
 PostgreSQL<br>
 
