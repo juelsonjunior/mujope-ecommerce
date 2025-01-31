@@ -8,11 +8,8 @@ class ProductController {
 		res.status(200).json(result);
 	}
 	async show(req: Request, res: Response) {
-		const filter: IFilter = {
-			id: req.query.id ? Number(req.query.id) : undefined,
-			name: req.query.name as string | undefined,
-		};
-		const result = await createProductService.show(filter);
+		const id = Number(req.params.id)
+		const result = await createProductService.show(id);
 		res.status(200).json(result);
 	}
 	async create(req: Request<{}, {}, IProduct>, res: Response) {
