@@ -22,7 +22,7 @@ class CreateProductService {
 	async show(id: IdParams): Promise<IProduct[]> {
 		const resultProduct = await productRepository.show(id);
 
-		if (!resultProduct) {
+		if (resultProduct.length == 0) {
 			throw new BadRequestError(
 				'Nenhum produto foi encontrado com base nesse ID'
 			);
