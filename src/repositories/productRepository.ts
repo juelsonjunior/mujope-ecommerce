@@ -10,9 +10,9 @@ class ProductRepository {
 	async index(): Promise<Partial<IProduct>[]> {
 		return await this.prisma.product.findMany();
 	}
-	async show(filters: Prisma.ProductWhereInput): Promise<IProduct[]> {
+	async show(id: IdParams): Promise<IProduct[]> {
 		return await this.prisma.product.findMany({
-			where: filters,
+			where: { id },
 		});
 	}
 	async create(product: IProduct): Promise<IProduct> {
