@@ -1,6 +1,6 @@
 import { IProduct } from './Iproduct';
 import { IdParams } from './typeParams';
-import { IFilter } from './Ifilter';
+import { IFilterProduct, IFilterCategory } from './Ifilters';
 import { ICategory } from './Icategory';
 
-export { IProduct, IdParams, IFilter, ICategory };
+export { IProduct, IdParams, IFilterProduct, IFilterCategory, ICategory };
