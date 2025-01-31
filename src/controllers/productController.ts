@@ -8,7 +8,7 @@ class ProductController {
 		res.status(200).json(result);
 	}
 	async show(req: Request, res: Response) {
-		const id = Number(req.params.id)
+		const id: IdParams = Number(req.params.id);
 		const result = await createProductService.show(id);
 		res.status(200).json(result);
 	}
