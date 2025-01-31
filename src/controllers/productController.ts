@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IProduct, IFilter, IdParams } from '../types';
+import { IProduct, IFilterProduct, IdParams } from '../types';
 import { createProductService } from '../service/';
 
 class ProductController {
