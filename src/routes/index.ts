@@ -13,7 +13,7 @@ router.delete('/product/:id', productController.delete);
 //Route category
 router.post('/category', categoryController.create);
 router.get('/category', categoryController.index);
-router.get('/category/filter', categoryController.show);
+router.get('/category/:id', categoryController.show);
 router.put('/category/:id', categoryController.update);
 router.delete('/category/:id', categoryController.delete);
 export default router;
