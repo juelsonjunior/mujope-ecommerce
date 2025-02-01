@@ -30,6 +30,8 @@ model Category {
   id          Int @id @default(autoincrement())
   name        String @unique
   description String
+  createAt    DateTime @default(now())
+  updatedAt         DateTime @updatedAt
   products    Product[]
   
   @@map("categories")
