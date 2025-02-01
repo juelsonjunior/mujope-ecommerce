@@ -1,13 +1,22 @@
 export interface IFilterProduct {
-	id: number;
-	name: string;
-	price: number;
-	categoryId: number;
-	createAt: Date;
-	updatedAt: Date;
+    name?: string;
+    price?: number;
+    createAtBefore?: string;
+    createAtAfter?: string;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    sort?: string;
+    page?: string,
+    limit?: string
 }
 
 export interface IFilterCategory {
-	id: number;
-	name: string;
+	name?: string;
+    createAtBefore?: string;
+    createAtAfter?: string;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    sort?: string;
+    page?: string,
+    limit?: string
 }
