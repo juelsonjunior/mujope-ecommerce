@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import { productRepository } from '../repositories/';
-import { IProduct, IFilter, IdParams } from '../types';
+import { IProduct, IdParams } from '../types';
 import { BadRequestError } from '../helpers/api-error';
 
 class CreateProductService {
@@ -9,15 +9,20 @@ class CreateProductService {
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
+	async index(
+		page: number,
+		limit: number,
+		where: Prisma.ProductWhereInput,
+		order: Prisma.ProductOrderByWithRelationInput[]
+	): Promise<Partial<IProduct>[]> {
 
-	async index(): Promise<Partial<IProduct>[]> {
-		const resultDataProduct = await productRepository.index();
+		const resultProduct = await productRepository.index(page, limit, where, order);
 
-		if (!resultDataProduct) {
-			throw new BadRequestError('Falha ao listar os produtos');
+		if (resultProduct.length == 0) {
+			throw new BadRequestError('Nenhum produto foi encontrado');
 		}
 
-		return resultDataProduct;
+		return resultProduct;
 	}
 	async show(id: IdParams): Promise<IProduct[]> {
 		const resultProduct = await productRepository.show(id);
@@ -51,17 +56,7 @@ class CreateProductService {
 
 		return newProduct;
 	}
-	async update(id: IdParams, product: IProduct): Promise<IProduct> {
-		const existProduct = await this.prisma.product.findUnique({
-			where: { name: product.name },
-		});
-
-		if (existProduct) {
-			throw new BadRequestError(
-				'Esse nome de produto já foi cadastrado! tente usar outro'
-			);
-		}
-
+	async update(id: IdParams, product: Partial<IProduct>): Promise<IProduct> {
 		const editProduct = await productRepository.update(id, product);
 
 		if (!editProduct) {
