@@ -7,12 +7,22 @@ class CategoryRepository {
 		this.prisma = new PrismaClient();
 	}
 
-	async index(): Promise<Partial<ICategory>[]> {
-		return await this.prisma.category.findMany();
-	}
-	async show(filters: Prisma.CategoryWhereInput): Promise<ICategory[]> {
+	async index(
+		page: number,
+		limit: number,
+		where: Prisma.CategoryWhereInput,
+		order: Prisma.CategoryOrderByWithRelationInput[]
+	): Promise<Partial<ICategory>[]> {
 		return await this.prisma.category.findMany({
-			where: filters,
+			where,
+			orderBy: order,
+			take: limit,
+			skip: limit * (page - 1),
+		});
+	}
+	async show(id: IdParams): Promise<ICategory[]> {
+		return await this.prisma.category.findMany({
+			where: { id },
 		});
 	}
 	async create(category: ICategory): Promise<ICategory> {
@@ -23,7 +33,10 @@ class CategoryRepository {
 			},
 		});
 	}
-	async update(id: IdParams, category: ICategory): Promise<ICategory> {
+	async update(
+		id: IdParams,
+		category: Partial<ICategory>
+	): Promise<ICategory> {
 		return await this.prisma.category.update({
 			where: { id },
 			data: {
