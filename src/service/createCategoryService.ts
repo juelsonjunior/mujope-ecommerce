@@ -1,43 +1,41 @@
 import { PrismaClient, Prisma } from '@prisma/client';
-import { ICategory, IFilter, IdParams } from '../types';
+import { ICategory, IdParams } from '../types';
 import { BadRequestError } from '../helpers/api-error';
 import { categoryRepository } from '../repositories/';
 
 class CreateCategoryService {
 	private prisma: PrismaClient;
-	
+
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
+	async index(
+		page: number,
+		limit: number,
+		where: Prisma.CategoryWhereInput,
+		order: Prisma.CategoryOrderByWithRelationInput[]
+	): Promise<Partial<ICategory>[]> {
+		const resultCategory = await categoryRepository.index(
+			page,
+			limit,
+			where,
+			order
+		);
 
-	async index(): Promise<Partial<ICategory>[]> {
-		const resultDataCategory = await categoryRepository.index();
-
-		if (!resultDataCategory) {
-			throw new BadRequestError('Falha ao listar os categoria');
+		if (resultCategory.length == 0) {
+			throw new BadRequestError('Nenhuma categoria foi encontrada');
 		}
 
-		return resultDataCategory;
+		return resultCategory;
 	}
-	async show(query: IFilter): Promise<ICategory[]> {
-		const filters = {} as Prisma.CategoryWhereInput;
+	async show(id: IdParams): Promise<ICategory[]> {
+		const resultCategory = await categoryRepository.show(id);
 
-		if (query.id) {
-			filters.id = query.id;
+		if (resultCategory.length == 0) {
+			throw new BadRequestError('Nenhum produto foi encontrado');
 		}
 
-		if (query.name) {
-			filters.name = { contains: query.name, mode: 'insensitive' };
-		}
-		const resultDataFilter = await categoryRepository.show(filters);
-
-		if (resultDataFilter.length == 0) {
-			throw new BadRequestError(
-				'Houve um problema ao filtrar os dados desse categoria'
-			);
-		}
-
-		return resultDataFilter;
+		return resultCategory;
 	}
 	async create(category: ICategory): Promise<ICategory> {
 		const existCategory = await this.prisma.category.findUnique({
@@ -60,17 +58,10 @@ class CreateCategoryService {
 
 		return newCategory;
 	}
-	async update(id: IdParams, category: ICategory): Promise<ICategory> {
-		const existCategory = await this.prisma.product.findUnique({
-			where: { name: category.name },
-		});
-
-		if (existCategory) {
-			throw new BadRequestError(
-				'Esse nome de categoria já foi cadastrado! tente usar outro'
-			);
-		}
-
+	async update(
+		id: IdParams,
+		category: Partial<ICategory>
+	): Promise<ICategory> {
 		const editCategory = await categoryRepository.update(id, category);
 
 		if (!editCategory) {
