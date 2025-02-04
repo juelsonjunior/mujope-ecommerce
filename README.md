@@ -15,10 +15,12 @@ PostgreSQL<br>
 #Instalar as dependencias do projeto
 yarn install
 npm install
+pnpm install
 
 #Iniciar o projeto
 yarn dev
 npm run dev
+pnpm run dev
 ```
 Divirta-se!
 ## Status atual do projeto
