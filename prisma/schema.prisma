@@ -13,13 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model Product {
-  id                Int @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   imageUrl          String
-  name              String @unique
-  description       String
-  price             Int
+  name              String   @unique
+  description       String?
+  price             Decimal
+  category          Category @relation(fields: [categoryId], references: [id])
   categoryId        Int
-  category Category @relation(fields: [categoryId], references: [id])
+  orderItems        OrderItem[]
   createAt          DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -27,12 +28,48 @@ model Product {
 }
 
 model Category {
-  id          Int @id @default(autoincrement())
-  name        String @unique
-  description String
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   createAt    DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
   products    Product[]
   
   @@map("categories")
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String 
+  email     String   @unique
+  password  String
+  orders    Order[]
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("customers")
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  status     String   @default("pending")
+  total      Decimal
+  items      OrderItem[]
+  createAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  price     Decimal
+
+  @@map("orderItems")
 }
