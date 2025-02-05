@@ -29,7 +29,6 @@ class CategoryRepository {
 		return await this.prisma.category.create({
 			data: {
 				name: category.name,
-				description: category.description,
 			},
 		});
 	}
@@ -41,7 +40,6 @@ class CategoryRepository {
 			where: { id },
 			data: {
 				name: category.name,
-				description: category.description,
 			},
 		});
 	}
