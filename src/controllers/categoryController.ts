@@ -1,54 +1,21 @@
 import { Request, Response } from 'express';
-import { ICategory, IFilterCategory, IdParams } from '../types';
+import { ICategory, IFilterItems, IdParams } from '../types';
 import { createCategoryService } from '../service/';
-import { PrismaClient, Prisma } from '@prisma/client';
-import { parseISO } from 'date-fns';
+import { filterItems } from '../utils/filters';
 
 class CategoryController {
-	private prisma: PrismaClient;
-
-	constructor() {
-		this.prisma = new PrismaClient();
-	}
-	async index(req: Request<{}, {}, {}, IFilterCategory>, res: Response) {
-		const {
-			name,
-			createAtBefore,
-			createAtAfter,
-			updatedAtBefore,
-			updatedAtAfter,
-			sort,
-		} = req.query;
-
-		const page = req.query.page ? Number(req.query.page) : 1;
-		const limit = req.query.limit ? Number(req.query.limit) : 25;
-		let order: Prisma.CategoryOrderByWithRelationInput[] = [];
-		const where: Prisma.CategoryWhereInput = {};
-
-		if (name) where.name = { contains: name, mode: 'insensitive' };
-
-		if (createAtBefore || createAtAfter) {
-			where.createAt = {};
-			if (createAtBefore) where.createAt.lte = parseISO(createAtBefore);
-			if (createAtAfter) where.createAt.gte = parseISO(createAtAfter);
-		}
-		if (updatedAtBefore || updatedAtAfter) {
-			where.updatedAt = {};
-			if (updatedAtBefore)
-				where.updatedAt.lte = parseISO(updatedAtBefore);
-			if (updatedAtAfter) where.updatedAt.gte = parseISO(updatedAtAfter);
-		}
-		if (sort) {
-			order = sort.split(',').map((item) => {
-				const [field, direction] = item.split(':');
-				return { [field]: direction as 'asc' | 'desc' };
-			});
-		}
+	async index(req: Request<{}, {}, {}, IFilterItems>, res: Response) {
+		const filter = filterItems(
+			req.query,
+			req.query.page,
+			req.query.limit,
+			'Category'
+		);
 		const result = await createCategoryService.index(
-			page,
-			limit,
-			where,
-			order
+			filter.page,
+			filter.limit,
+			filter.where,
+			filter.order
 		);
 		res.status(200).json(result);
 	}
