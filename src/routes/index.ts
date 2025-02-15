@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import {productController, categoryController} from '../controllers/';
+import {
+	productController,
+	categoryController,
+	customerController,
+} from '../controllers/';
 
 const router = Router();
 
@@ -16,4 +20,12 @@ router.get('/category', categoryController.index);
 router.get('/category/:id', categoryController.show);
 router.put('/category/:id', categoryController.update);
 router.delete('/category/:id', categoryController.delete);
+
+//Route customer
+router.post('/customer', customerController.create);
+router.get('/customer', customerController.index);
+router.get('/customer/:id', customerController.show);
+router.put('/customer/:id', customerController.update);
+router.delete('/customer/:id', customerController.delete);
+
 export default router;
