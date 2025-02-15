@@ -7,7 +7,7 @@ export interface IFilterItems {
 	createAtAfter?: string;
 	updatedAtBefore?: string;
 	updatedAtAfter?: string;
-	sort?:string
+	sort?: string;
 	page?: string;
 	limit?: string;
 }
@@ -20,5 +20,9 @@ export interface IFilterModelTypes {
 	Category: {
 		where: Prisma.CategoryWhereInput;
 		orderBy: Prisma.CategoryOrderByWithRelationInput[];
+	};
+	Customer: {
+		where: Prisma.CustomerWhereInput;
+		orderBy: Prisma.CustomerOrderByWithRelationInput[];
 	};
 }
