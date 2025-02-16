@@ -43,7 +43,6 @@ class CustomerRepository {
 			data: {
 				name: customer.name,
 				email: customer.email,
-				password: customer.password,
 			},
 		});
 	}
