@@ -25,4 +25,8 @@ export interface IFilterModelTypes {
 		where: Prisma.CustomerWhereInput;
 		orderBy: Prisma.CustomerOrderByWithRelationInput[];
 	};
+	Order: {
+		where: Prisma.OrderWhereInput;
+		orderBy: Prisma.OrderOrderByWithRelationInput[];
+	};
 }
