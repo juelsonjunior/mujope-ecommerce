@@ -1,12 +1,9 @@
-enum Status {
-    pending = "Pendente",
-    process = "Processando",
-    done = "Finalizado"
-}
+import { Status } from '@prisma/client';
+
 export interface IOrder {
-    status: Status.pending
-    total: number
-    customerId: number
-    createAt?: Date
-    updatedAt?: Date
+	status: Status;
+	total: number;
+	customerId: number;
+	createAt?: Date;
+	updatedAt?: Date;
 }
