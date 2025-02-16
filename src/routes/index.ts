@@ -3,6 +3,7 @@ import {
 	productController,
 	categoryController,
 	customerController,
+	orderController,
 } from '../controllers/';
 
 const router = Router();
@@ -27,5 +28,12 @@ router.get('/customer', customerController.index);
 router.get('/customer/:id', customerController.show);
 router.put('/customer/:id', customerController.update);
 router.delete('/customer/:id', customerController.delete);
+
+//Route order
+router.post('/order', orderController.create);
+router.get('/order', orderController.index);
+router.get('/order/:id', orderController.show);
+router.put('/order/:id', orderController.update);
+router.delete('/order/:id', orderController.delete);
 
 export default router;
