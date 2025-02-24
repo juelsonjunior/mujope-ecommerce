@@ -27,4 +27,4 @@ Divirta-se!
 Release: Version 1.0.0
 
 Estado: Em desenvolvimento<br> 
-Repositório: Privado
+Repositório: Público
