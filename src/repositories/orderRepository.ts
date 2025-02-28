@@ -35,8 +35,6 @@ class OrderRepository {
 				orderNumber: generateOrderNumber(),
 			},
 		});
-		console.log(generateOrderNumber());
-		
 	}
 	async update(id: IdParams, order: Partial<IOrder>): Promise<IOrder> {
 		return await this.prisma.order.update({
