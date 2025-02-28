@@ -15,8 +15,12 @@ class CreateProductService {
 		where: Prisma.ProductWhereInput,
 		order: Prisma.ProductOrderByWithRelationInput[]
 	): Promise<Partial<IProduct>[]> {
-
-		const resultProduct = await productRepository.index(page, limit, where, order);
+		const resultProduct = await productRepository.index(
+			page,
+			limit,
+			where,
+			order
+		);
 
 		if (resultProduct.length == 0) {
 			throw new BadRequestError('Nenhum produto foi encontrado');
@@ -57,6 +61,14 @@ class CreateProductService {
 		return newProduct;
 	}
 	async update(id: IdParams, product: Partial<IProduct>): Promise<IProduct> {
+		const existIdProduct = await this.prisma.product.findFirst({
+			where: { id: id },
+		});
+
+		if (!existIdProduct) {
+			throw new BadRequestError('Esse produto não foi encontrada');
+		}
+
 		const editProduct = await productRepository.update(id, product);
 
 		if (!editProduct) {
