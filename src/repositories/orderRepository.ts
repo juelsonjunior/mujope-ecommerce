@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import { IOrder, IdParams } from '../types';
+import { generateOrderNumber } from '../utils/randoms';
 class OrderRepository {
 	private prisma: PrismaClient;
 
@@ -30,9 +31,12 @@ class OrderRepository {
 			data: {
 				total: order.total,
 				customerId: order.customerId,
-				status: order.status
+				status: order.status,
+				orderNumber: generateOrderNumber(),
 			},
 		});
+		console.log(generateOrderNumber());
+		
 	}
 	async update(id: IdParams, order: Partial<IOrder>): Promise<IOrder> {
 		return await this.prisma.order.update({
