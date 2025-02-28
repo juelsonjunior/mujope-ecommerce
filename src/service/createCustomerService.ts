@@ -62,6 +62,14 @@ class CreateCustomerService {
 		id: IdParams,
 		customer: Partial<ICustomer>
 	): Promise<ICustomer> {
+		const existIdCustomer = await this.prisma.customer.findFirst({
+			where: { id: id },
+		});
+
+		if (!existIdCustomer) {
+			throw new BadRequestError('Essa cliente não foi encontrada');
+		}
+
 		const editCustomer = await customerRepository.update(id, customer);
 
 		if (!editCustomer) {
