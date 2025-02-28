@@ -4,6 +4,7 @@ import {
 	categoryController,
 	customerController,
 	orderController,
+	orderItemController
 } from '../controllers/';
 
 const router = Router();
@@ -35,5 +36,12 @@ router.get('/order', orderController.index);
 router.get('/order/:id', orderController.show);
 router.put('/order/:id', orderController.update);
 router.delete('/order/:id', orderController.delete);
+
+//Route orderItem
+router.post('/orderItem', orderItemController.create);
+router.get('/orderItem', orderItemController.index);
+router.get('/orderItem/:id', orderItemController.show);
+router.put('/orderItem/:id', orderItemController.update);
+router.delete('/orderItem/:id', orderItemController.delete);
 
 export default router;
