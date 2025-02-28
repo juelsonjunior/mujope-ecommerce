@@ -4,7 +4,7 @@ import {
 	categoryController,
 	customerController,
 	orderController,
-	orderItemController
+	orderItemController,
 } from '../controllers/';
 
 const router = Router();
