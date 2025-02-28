@@ -62,6 +62,14 @@ class CreateCategoryService {
 		id: IdParams,
 		category: Partial<ICategory>
 	): Promise<ICategory> {
+		const existIdCategory = await this.prisma.category.findFirst({
+			where: { id: id },
+		});
+
+		if (!existIdCategory) {
+			throw new BadRequestError('Essa categoria não foi encontrada');
+		}
+
 		const editCategory = await categoryRepository.update(id, category);
 
 		if (!editCategory) {
