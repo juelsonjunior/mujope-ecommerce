@@ -38,18 +38,6 @@ class CreateOrderService {
 		return resultOrder;
 	}
 	async create(order: IOrder): Promise<IOrder> {
-		const idOrder = await this.prisma.order.findMany();
-
-		const existOrder = await this.prisma.order.findUnique({
-			where: { id: idOrder[0].id },
-		});
-
-		if (existOrder) {
-			throw new BadRequestError(
-				'Esse pedido já existe! tente usar outro'
-			);
-		}
-
 		const newOrder = await orderRepository.create(order);
 
 		if (!newOrder) {
@@ -59,6 +47,14 @@ class CreateOrderService {
 		return newOrder;
 	}
 	async update(id: IdParams, Order: Partial<IOrder>): Promise<IOrder> {
+		const existIdOrder = await this.prisma.order.findFirst({
+			where: { id: id },
+		});
+
+		if (!existIdOrder) {
+			throw new BadRequestError('Esse pedido não foi encontrada');
+		}
+
 		const editOrder = await orderRepository.update(id, Order);
 
 		if (!editOrder) {
