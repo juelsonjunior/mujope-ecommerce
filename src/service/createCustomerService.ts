@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client';
+import bcrypt from "bcrypt"
 import { ICustomer, IdParams } from '../types';
 import { BadRequestError } from '../helpers/api-error';
 import { customerRepository } from '../repositories';
@@ -47,6 +48,9 @@ class CreateCustomerService {
 				'Esse nome de cliente já foi cadastrado! tente usar outro'
 			);
 		}
+
+		const hashPassword = await bcrypt.hash(customer.password, 10);
+		customer.password = hashPassword;
 
 		const newCustomer = await customerRepository.create(customer);
 
