@@ -3,6 +3,7 @@ import createCategoryService from './createCategoryService';
 import createCustomerService from './createCustomerService';
 import createOrderService from './createOrderService';
 import createOrderItemService from './createOrderItemService';
+import createLoginService from './createLoginService';
 
 export {
 	createProductService,
@@ -10,4 +11,5 @@ export {
 	createCustomerService,
 	createOrderService,
 	createOrderItemService,
+	createLoginService,
 };

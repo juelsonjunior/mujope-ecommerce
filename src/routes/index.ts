@@ -5,8 +5,9 @@ import {
 	customerController,
 	orderController,
 	orderItemController,
+	loginController,
 } from '../controllers/';
-
+import authLogin from '../middleware/authLogin';
 const router = Router();
 
 //Route product
@@ -43,5 +44,8 @@ router.get('/orderItem', orderItemController.index);
 router.get('/orderItem/:id', orderItemController.show);
 router.put('/orderItem/:id', orderItemController.update);
 router.delete('/orderItem/:id', orderItemController.delete);
+
+//Route login
+router.post('/login', loginController.login);
 
 export default router;
