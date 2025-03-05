@@ -7,7 +7,7 @@ const authLogin = (req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers.authorization;
 
 	if (!token) {
-		throw new BadRequestError('Token inválido');
+		throw new BadRequestError('Acesso negado! Token não fornecido.');
 	}
 	const decoded = jwt.verify(
 		token.replace('Bearer ', ''),
@@ -16,7 +16,7 @@ const authLogin = (req: Request, res: Response, next: NextFunction) => {
 
 	if (!decoded) {
 		throw new BadRequestError(
-			'Você não tem permissão para acessar essa area'
+			'Token inválido'
 		);
 	}
 
