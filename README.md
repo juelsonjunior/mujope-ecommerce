@@ -1,18 +1,18 @@
-# 🛍️ MuJope E-commerce
+# ��️ MuJope E-commerce API
 
-Um sistema de e-commerce moderno e robusto desenvolvido com as mais recentes tecnologias do mercado.
+Uma API RESTful robusta e moderna para sistemas de e-commerce, desenvolvida com as mais recentes tecnologias do mercado.
 
 ## 📋 Sobre o Projeto
 
-O MuJope E-commerce é uma plataforma completa de vendas online que oferece uma experiência de compra segura e intuitiva para os usuários. O sistema foi desenvolvido com foco em performance, segurança e escalabilidade.
+A MuJope E-commerce API é um backend completo que fornece todos os endpoints necessários para construir uma plataforma de e-commerce. Desenvolvida com foco em performance, segurança e escalabilidade, esta API oferece uma base sólida para integração com qualquer frontend.
 
 ## 🚀 Tecnologias Utilizadas
 
 - **TypeScript** - Linguagem de programação tipada
 - **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web
-- **Zod** - Validação de dados
-- **NodeMailer** - Envio de e-mails
+- **Express.js** - Framework web para APIs REST
+- **Zod** - Validação de dados e schemas
+- **NodeMailer** - Serviço de envio de e-mails
 - **Prisma ORM** - ORM moderno para banco de dados
 - **PostgreSQL** - Banco de dados relacional
 
@@ -64,17 +64,33 @@ npm run dev
 pnpm run dev
 ```
 
-O servidor estará rodando em `http://localhost:3000`
+A API estará rodando em `http://localhost:3000`
 
-## 📦 Funcionalidades
+## 📦 Endpoints da API
 
-- [ ] Autenticação de usuários
-- [ ] Catálogo de produtos
-- [ ] Carrinho de compras
-- [ ] Sistema de pagamentos
-- [ ] Área do administrador
-- [ ] Gestão de pedidos
-- [ ] Relatórios de vendas
+### Autenticação
+- [ ] POST /auth/register - Registro de usuários
+- [ ] POST /auth/login - Login de usuários
+- [ ] POST /auth/refresh-token - Renovação de token
+
+### Produtos
+- [ ] GET /products - Listar produtos
+- [ ] GET /products/:id - Detalhes do produto
+- [ ] POST /products - Criar produto (admin)
+- [ ] PUT /products/:id - Atualizar produto (admin)
+- [ ] DELETE /products/:id - Remover produto (admin)
+
+### Pedidos
+- [ ] POST /orders - Criar pedido
+- [ ] GET /orders - Listar pedidos do usuário
+- [ ] GET /orders/:id - Detalhes do pedido
+- [ ] PUT /orders/:id/status - Atualizar status (admin)
+
+### Carrinho
+- [ ] GET /cart - Obter carrinho atual
+- [ ] POST /cart/items - Adicionar item ao carrinho
+- [ ] PUT /cart/items/:id - Atualizar quantidade
+- [ ] DELETE /cart/items/:id - Remover item
 
 ## 📊 Status do Projeto
 
@@ -98,6 +114,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 📧 Contato
 
-Seu Nome - [@seu_twitter](https://twitter.com/seu_twitter) - email@exemplo.com
+Juelson Junior - [@juelsonjunior](https://github.com/juelsonjunior)
 
-Link do Projeto: [https://github.com/seu-usuario/mujope-ecommerce](https://github.com/seu-usuario/mujope-ecommerce)
+Link do Projeto: [https://github.com/juelsonjunior/mujope-ecommerce](https://github.com/juelsonjunior/mujope-ecommerce)
